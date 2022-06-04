@@ -6,7 +6,7 @@ import static io.restassured.RestAssured.given;
 public class UserClient extends RestAssuredClient {
     private static final String AUTH_PATH = "api/auth/";
 
-    @Step("Создаем пользователя {user}")
+    @Step("Создаем пользователя {user.email}")
     public ValidatableResponse createUser(User user) {
         return given()
                 .spec(getBaseSpec())
@@ -26,7 +26,7 @@ public class UserClient extends RestAssuredClient {
                 .then();
     }
 
-    @Step("Логним пользователя с {credentials}")
+    @Step("Логиним пользователя с {credentials.email}")
     public ValidatableResponse loginUser(UserCredentials credentials) {
         return given()
                 .spec(getBaseSpec())
@@ -36,7 +36,7 @@ public class UserClient extends RestAssuredClient {
                 .then();
     }
 
-    @Step("Вносим изменения в информацию о пользователе с {accessToken} , {user}")
+    @Step("Вносим изменения в информацию о пользователе с {accessToken} , {user.email}")
     public ValidatableResponse patchUserInfo(String accessToken, User user) {
         return given()
                 .spec(getBaseSpec())
