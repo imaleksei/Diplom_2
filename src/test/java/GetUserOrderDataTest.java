@@ -4,25 +4,19 @@ import io.qameta.allure.TmsLink;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import orders.OrderData;
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class GetUserOrderDataTest {
@@ -68,12 +62,14 @@ public class GetUserOrderDataTest {
         assertEquals("Status code doesn't match", 200, statusCode);
         assertTrue("Orders didn't got", isOrderGot);
         assertThat("Order List is empty", orderData.getOrders(), is(not(empty())));
-        assertThat("Order List is empty", orderData.getOrders().get(0).getIngredients(), equalTo(expected));
+        assertThat("Order Hash doesn't match", orderData.getOrders().get(0).getIngredients(), equalTo(expected));
     }
 
     @Test
     @DisplayName("Получение заказов конкретного пользователя")
     @Description("Неавторизованный пользователь")
+    @TmsLink("TMS-5.2")
+    @Issue("BUG-5.2")
     public void getOrderForUserWithoutAuth() {
         Order order = new Order();
         order.setIngredients(Arrays.asList(firstIngredient));
